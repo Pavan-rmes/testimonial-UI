@@ -18,14 +18,14 @@ const people = [
 ];
 
 export function TableContent({testimonials}) {
-  const testimonialsData = testimonials[1].testimonials;
+  const testimonialsData = testimonials[1].testimonialwalls;
   console.log(testimonialsData)
   let navigate = useNavigate();
   return (
-    <div className="px-4 sm:px-6 lg:px-8 ">
+    <div className="px-4 lg:mt-16 sm:px-6 lg:px-8 ">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h1 className="text-xl font-semibold text-gray-900">Users</h1>
+          <h1 className="text-2xl font-semibold text-gray-900">Users</h1>
           <p className="mt-2 text-sm text-gray-700">
             A list of all the users in your account including their name, title,
             email and role.
@@ -81,39 +81,39 @@ export function TableContent({testimonials}) {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white ">
-            {testimonialsData.map((testimonial,id) => (
+            {testimonialsData.map((wall,id) => (
               <tr key={id}>
                 <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-500 sm:w-auto sm:max-w-none sm:pl-6">
-                  <span className='cursor-pointer hover:text-gray-900'>{testimonial.testimonial}</span>
+                  <span className='cursor-pointer hover:text-gray-900'>{wall.wallName}</span>
                   <dl className="font-normal lg:hidden">
                     {/* <dt className="sr-only">Title</dt> */}
                     <dd className="mt-1 truncate text-gray-700">
                       {" "}
-                      Accepted :{testimonial?.accepted}
+                      Accepted :{wall?.accepted}
                     </dd>
                     {/* <dt className="sr-only sm:hidden">Email</dt> */}
                     <dd className="mt-1 truncate text-gray-700 sm:hidden">
-                      Pending: {testimonial?.pending}
+                      Pending: {wall?.pending}
                     </dd>
                     <dd className="mt-1 truncate text-gray-700 sm:hidden">
-                      Views: {testimonial?.views}
+                      Views: {wall?.views}
                     </dd>
                   </dl>
                 </td>
                 <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">
-                  {testimonial?.accepted}
+                  {wall?.accepted}
                 </td>
                 <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">
-                  {testimonial?.pending}
+                  {wall?.pending}
                 </td>
                 <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">
-                  {testimonial?.views}
+                  {wall?.views}
                 </td>
                 <td className="px-3 py-4 text-sm text-gray-500 w-36">
-                    <ToggleButton toggleStatus={testimonial?.status} />
+                    <ToggleButton toggleStatus={wall?.status} />
                 </td>
                 <td className="py-4 pl-3 pr-4 flex flex-row  justify-center text-right text-sm font-medium text-eeorange-500 hover:text-eeorange-700">
-                  <a href="#">View</a>
+                  <a className='cursor-pointer' onClick={()=>navigate(`/studio/${wall.id}`)}>View</a>
                   <ArrowRightIcon className='w-6 h-6' />
                 </td>
               </tr>
