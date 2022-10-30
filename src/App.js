@@ -1,6 +1,7 @@
 import './App.css';
 import AppScreen from "./Home/MainContent";
 import {
+  Navigate,
   BrowserRouter,
   Routes,
   Route,

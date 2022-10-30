@@ -6,16 +6,6 @@ import { ArrowRightIcon} from "@heroicons/react/24/outline";
 import {Modal} from "./Modal"
 import { useNavigate } from "react-router-dom";
 
-const people = [
-  {
-    CampaignName: "Test1",
-    Accepted: "10",
-    Pending: "20",
-    Views: "500",
-    Status: "ON",
-  },
-  // More people...
-];
 
 export function TableContent({testimonials}) {
   const testimonialsData = testimonials[1].testimonialwalls;
@@ -81,7 +71,7 @@ export function TableContent({testimonials}) {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white ">
-            {testimonialsData.map((wall,id) => (
+            {testimonialsData?.map((wall,id) => (
               <tr key={id}>
                 <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-500 sm:w-auto sm:max-w-none sm:pl-6">
                   <span className='cursor-pointer hover:text-gray-900'>{wall.wallName}</span>

@@ -4,7 +4,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { SideNavbar } from "../Navbar/SideNavbar";
 import { Testimonials } from "./TestimonialTable";
 import { navigation, classNames } from "../Navbar/SideNavbar";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Bars3BottomLeftIcon } from "@heroicons/react/24/outline";
 import { Studio } from "../Studio/studio";
 import { AuthRoute } from "../Auth/AuthRoute";
@@ -51,6 +51,7 @@ export default function AppScreen() {
           <AuthRoute path="/studio/:id" element={<Studio />} />
           <AuthRoute path="/my-account" element={<>my Account</>} />
           <AuthRoute path="/upgrade" element={<>Upgrade</>} />
+          <AuthRoute path="/" element={<Navigate to="/home" replace />} />
         </div>
       </div>
     </>
