@@ -4,7 +4,8 @@ import {
   HomeIcon,
   UsersIcon,
   RectangleStackIcon,
-  GlobeAltIcon
+  GlobeAltIcon,
+  ArrowLeftOnRectangleIcon
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -84,9 +85,27 @@ export function SideNavbar({navData,setNavData}) {
                 : <> </> }
               </div>
             ))}
+            <Logout />
           </nav>
         </div>
       </div>
     </div>
   );
+}
+
+
+function Logout(){
+  const navigate = useNavigate();
+  const handleLogout = ()=>{
+    localStorage.clear();
+    navigate("/login")
+  }
+  return(
+    <div 
+    onClick={()=>handleLogout()}
+    className="flex items-center px-2 py-2 text-sm font-medium rounded-md cursor-pointer">
+      <ArrowLeftOnRectangleIcon className="mr-3 flex-shrink-0 h-6 w-6 text-gray-600 hover:text-gray-800" />
+      <p className="text-gray-600 hover:text-gray-800">logout</p>
+    </div>
+  )
 }
