@@ -1,8 +1,10 @@
 // import { Container } from '@/components/Container'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MasonryLayout } from "./MasonryLayout";
 import {Verticalscroll} from "./Verticalscroll"
 import {GridLayout} from "./grid"
+import { getTestimonialData } from "../services/common";
+import { useParams } from "react-router-dom";
 
 // export function QuoteIcon(props) {
 //   return (
@@ -12,17 +14,19 @@ import {GridLayout} from "./grid"
 //   );
 // }
 
-export function TestimonialLayout({state,testimonialsData}) {
+export function TestimonialLayout({state,setTestimonialData,testimonialsData}) {
+
+  const{id} = useParams();
 
   return (
     <div >
       {(()=>{
         switch (state){
           case "pending":
-            return <Verticalscroll />
+            return <GridLayout setTestimonialData={setTestimonialData} testimonialsData={testimonialsData?.filter(d=>(!d?.acceptedStatus))} />
           case "customize":
           case "accepted":
-            return <MasonryLayout testimonialsData={testimonialsData} />
+            return <MasonryLayout setTestimonialData={setTestimonialData} testimonialsData={testimonialsData?.filter(d=>(d?.acceptedStatus))} />
           case "insights":
             return <div>Two Cards</div>
         }

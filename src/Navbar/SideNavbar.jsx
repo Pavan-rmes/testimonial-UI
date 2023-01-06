@@ -29,6 +29,7 @@ export function classNames(...classes) {
 
 
 export function SideNavbar({navData,setNavData}) {
+  console.log(navData)
 
   const navigate = useNavigate()
 
@@ -40,6 +41,10 @@ export function SideNavbar({navData,setNavData}) {
     setNavData(dupNavData);
   }
   // console.log
+
+  function handleStudioNavigation(wall_id){
+    navigate(`/studio/${wall_id}`)
+  }
 
   return (
     <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
@@ -76,9 +81,11 @@ export function SideNavbar({navData,setNavData}) {
               </div>
               {id === 1 ?
                 <div>
-                  {item?.testimonialwalls?.map((testimonial)=>(
-                  <p className="text-gray-600 pl-14 py-1 hover:text-gray-800" >
-                    {testimonial.wallName}
+                  {item?.testimonialwalls?.map((testimonialwall)=>(
+                  <p 
+                  onClick={()=>handleStudioNavigation(testimonialwall.id)}
+                  className="text-gray-600 pl-14 py-1 hover:text-gray-800" >
+                    {testimonialwall.wallName}
                   </p>
                   ))}
                 </div>

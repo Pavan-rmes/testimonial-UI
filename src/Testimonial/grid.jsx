@@ -3,6 +3,10 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { StarRating } from "./StarRating";
 import { Api } from "../Apis/api";
+import { CheckSvg } from "../icons";
+import { getTestimonialData, updateAcceptedStatus } from "../services/common";
+import { useParams } from "react-router-dom";
+
 
 const testimonialdata = [
   {
@@ -91,7 +95,8 @@ const testimonialdata = [
   },
 ];
 
-export function GridLayout() {
+export function GridLayout({testimonialsData,setTestimonialData}) {
+  console.log(testimonialsData)
   useEffect(() => {
     const userId = localStorage.getItem("id")
     // axios.get(`${Api}/testimonial/new-testimonial?id=${userId}`)
@@ -100,31 +105,36 @@ export function GridLayout() {
   return (
     <div className="container my-12 mx-auto px-4 md:px-12">
       <div className="flex flex-wrap -mx-1 lg:-mx-4">
-        {testimonialdata.map((data) => (
-          <Review data={data} />
+        {testimonialsData?.map((data) => (
+          <Review data={data} setTestimonialData={setTestimonialData} />
         ))}
       </div>
     </div>
   );
 }
 
-function Review({ data }) {
+function Review({ data,setTestimonialData }) {
 
   const [show,setShow] = useState(false);
-
+  const {id} = useParams();
   function textData(text) {
     const maxTextLength = 100;
     
     if(show){
       return [text,true]
     }
-    if (text.length > maxTextLength) {
+    if (text?.length > maxTextLength) {
       return [text.slice(0, maxTextLength), true];
     } else {
       return [text, false];
     }
   }
 
+  async function handleUpdatePendingStatus(docId){
+      await updateAcceptedStatus(id,docId,0);
+      getTestimonialData(id)
+      .then((data)=>setTestimonialData(data))
+  }
 
   return (
     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
@@ -133,23 +143,44 @@ function Review({ data }) {
           "animate-fade-in rounded-xl bg-white p-6 opacity-1 shadow-xl"
         }
       >
-        <blockquote className="text-gray-900">
-          <StarRating rating={data.rating} />
-          <p className="mt-4 text-lg font-semibold leading-6 before:content-['“'] after:content-['”']">
+        <div className="text-gray-900">
+          {data.rating && <StarRating rating={data?.rating} />}
+          <p className="mt-4 text-lg font-semibold leading-6 ">
             {data.title}
           </p>
           <p className="mt-3 text-base leading-7 grow">
-            {textData(data.body)[0]}
-            {textData(data.body)[1] && (
+            {textData(data.text)[0]}
+            {textData(data.text)[1] && (
               <a 
               onClick={()=>setShow(!show)}
               className="text-blue-700 cursor-pointer underline">{show?"Hide":"..More"}</a>
             )}
           </p>
-        </blockquote>
-        <figcaption className="mt-3 text-sm text-gray-600 before:content-['–_']">
-          {data.author}
-        </figcaption>
+        </div>
+        
+        <div className=" mt-6 flex items-center justify-between  border-slate-100 pt-6">
+          <div className="overflow-hidden rounded-full bg-slate-50">
+            <img
+              referrerpolicy="no-referrer"
+              className="h-14 w-14 object-cover"
+              src={data?.profile_image_url}
+              alt=""
+              width={56}
+              height={56} />
+          </div>
+          <div>
+            <p className="font-display text-base text-slate-900">
+              {data?.name}
+            </p>
+          </div>
+        </div>
+        <div className="flex justify-center">
+          <div
+          onClick={()=>handleUpdatePendingStatus(data.documentId)}
+          className="px-2 flex py-1  cursor-pointer rounded text-white bg-eeorange-500">
+          <CheckSvg /> Accept
+          </div> 
+        </div>
       </div>
     </div>
   );
